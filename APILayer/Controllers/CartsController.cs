@@ -25,33 +25,40 @@ namespace APILayer.Controllers
 
 
         // GET: api/Carts/5
-        [HttpGet("{id}")]
-        public ActionResult<List<Cart>> GetCart(Guid Uid)
+        [HttpGet("{Uid}")]
+        public List<Cart> GetCart(Guid Uid)
         {
             var cart = userService.getCart(Uid).ToList();
 
             if (cart == null)
             {
-                return NotFound();
+                return null;
             }
 
             return cart;
         }
 
+        // GET: api/Carts
+        [HttpDelete("")]
+        public void DeleteCart(Cart cart)
+        {
+            userService.DeleteCart(cart);
+        }
 
         // POST: api/Carts
         [HttpPost]
         public void PostCart(Cart cart)
         {
-            userService.AddTOCart(new Cart
-            {
-                ID = Guid.NewGuid(),
-                IsSubmitted = false,
-                Price = cart.Price,
-                Product = cart.Product,
-                Quantity = cart.Quantity,
-                User = cart.User
-            });
+            userService.AddTOCart(
+                new Cart
+                {
+                    ID=Guid.NewGuid(),
+                    UserId=cart.UserId,
+                    Quantity=cart.Quantity,
+                    IsSubmitted=false,
+                    Price=cart.Price,
+                    ProductId=cart.ProductId
+                });
 
         }
 

@@ -37,6 +37,7 @@ namespace ServiceLayer
 
         public Cart DeleteCart(Cart cart)
         {
+           // var delCart= cartRepository.Get(cart.ID);
             cartRepository.Delete(cart);
             return cart;
         }
@@ -52,7 +53,7 @@ namespace ServiceLayer
             List<Cart> UserCarts=new List<Cart>();
             foreach(var item in carts)
             {
-                if (item.User.ID == userId && item.IsSubmitted==false)
+                if (item.UserId == userId && item.IsSubmitted==false)
                     UserCarts.Add(item);
             }
             return UserCarts;
@@ -85,19 +86,22 @@ namespace ServiceLayer
             return null;
         }
 
-        public void SubmitOrder(User user)
+        public void SubmitOrder(Guid userId)
         {
-            var cartlist = getCart(user.ID);
+            var cartlist = getCart(userId);
             foreach(var item in cartlist)
             {
                 orderRepository.Insert(new Order
                 {
-                    User = user,
-                    Cart = item,
+                    UserId = userId,
+                    CartId = item.ID,
                     ID = Guid.NewGuid()
                 });
                 item.IsSubmitted = true;
                 cartRepository.Update(item);
+                var product = productRepository.Get(item.ProductId);
+                product.Quantity -= item.Quantity;
+                productRepository.Update(product);
             }
 
         }
@@ -108,7 +112,7 @@ namespace ServiceLayer
             List<Order> UserOrders = new List<Order>();
             foreach(var item in orders)
             {
-                if (item.User.ID == userId)
+                if (item.UserId == userId)
                     UserOrders.Add(item);
             }
             return UserOrders;

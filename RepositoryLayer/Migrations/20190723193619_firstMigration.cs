@@ -58,8 +58,8 @@ namespace RepositoryLayer.Migrations
                 columns: table => new
                 {
                     ID = table.Column<Guid>(nullable: false),
-                    UserID = table.Column<Guid>(nullable: true),
-                    ProductID = table.Column<Guid>(nullable: true),
+                    UserId = table.Column<Guid>(nullable: false),
+                    ProductId = table.Column<Guid>(nullable: false),
                     Quantity = table.Column<int>(nullable: false),
                     Price = table.Column<double>(nullable: false),
                     IsSubmitted = table.Column<bool>(nullable: false)
@@ -68,17 +68,17 @@ namespace RepositoryLayer.Migrations
                 {
                     table.PrimaryKey("PK_Cart", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Cart_Product_ProductID",
-                        column: x => x.ProductID,
+                        name: "FK_Cart_Product_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Product",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Cart_User_UserID",
-                        column: x => x.UserID,
+                        name: "FK_Cart_User_UserId",
+                        column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -86,35 +86,53 @@ namespace RepositoryLayer.Migrations
                 columns: table => new
                 {
                     ID = table.Column<Guid>(nullable: false),
-                    CartID = table.Column<Guid>(nullable: true),
-                    UserID = table.Column<Guid>(nullable: true)
+                    CartId = table.Column<Guid>(nullable: false),
+                    UserId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Order", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Order_Cart_CartID",
-                        column: x => x.CartID,
+                        name: "FK_Order_Cart_CartId",
+                        column: x => x.CartId,
                         principalTable: "Cart",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Order_User_UserID",
-                        column: x => x.UserID,
+                        name: "FK_Order_User_UserId",
+                        column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.NoAction);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Product",
+                columns: new[] { "ID", "Description", "Price", "ProductName", "Quantity" },
+                values: new object[,]
+                {
+                    { new Guid("cb24c610-ba72-4b15-814c-aa6eb43d9007"), "this is the first product", 100.0, "P1", 5.0 },
+                    { new Guid("a229e6ce-47ab-44bd-867e-18dab78e550d"), "this is the second product", 200.0, "P2", 10.0 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "User",
+                columns: new[] { "ID", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("1a8c8375-b7f4-4b59-9c8b-87ca9dd6b992"), "Basma" },
+                    { new Guid("a915dca0-f0d4-4294-a50c-40f28b9cfb9b"), "Ola" }
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cart_ProductID",
+                name: "IX_Cart_ProductId",
                 table: "Cart",
-                column: "ProductID");
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cart_UserID",
+                name: "IX_Cart_UserId",
                 table: "Cart",
-                column: "UserID");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Image_ProductId",
@@ -122,14 +140,14 @@ namespace RepositoryLayer.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Order_CartID",
+                name: "IX_Order_CartId",
                 table: "Order",
-                column: "CartID");
+                column: "CartId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Order_UserID",
+                name: "IX_Order_UserId",
                 table: "Order",
-                column: "UserID");
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

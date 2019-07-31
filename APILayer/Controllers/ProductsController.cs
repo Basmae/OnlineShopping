@@ -23,20 +23,20 @@ namespace APILayer.Controllers
 
         // GET: api/products
         [HttpGet]
-        public ActionResult<IEnumerable<Product>> Getproduct()
+        public IEnumerable<Product> Getproduct()
         {
             return productService.GetAllProducts().ToList();
         }
 
         // GET: api/products/5
         [HttpGet("{id}")]
-        public ActionResult<Product> Getproduct(Guid id)
+        public Product Getproduct(Guid id)
         {
             var product = productService.GetProduct(id);
 
             if (product == null)
             {
-                return NotFound();
+                return null;
             }
 
             return product;
@@ -73,11 +73,10 @@ namespace APILayer.Controllers
 
         // POST: api/products
         [HttpPost]
-        public ActionResult<Product> Postproduct(Product product)
+        public void Postproduct(Product product)
         {
             productService.AddProduct(product);
 
-            return CreatedAtAction("Getproduct", new { id = product.ID }, product);
         }
 
         
@@ -87,7 +86,7 @@ namespace APILayer.Controllers
         }
 
         [HttpGet("Images/{id}")]
-        public ActionResult<IEnumerable<Image>> GetproductImages(Guid id)
+        public IEnumerable<Image> GetproductImages(Guid id)
         {
             var productImages = productService.GetProductImages(id).ToList();
 
@@ -95,11 +94,18 @@ namespace APILayer.Controllers
         }
 
         [HttpGet("filter/{min}/{max}")]
-        public ActionResult<IEnumerable<Product>> Getproducts(double min , double max)
+        public IEnumerable<Product> Getproducts(double min , double max)
         {
             var filteredproducts = productService.filterProducts(min,max).ToList();
 
             return filteredproducts;
+        }
+        // POST: api/products/image
+        [HttpPost("image")]
+        public void PostImage(Image image)
+        {
+            productService.AddImage(image);
+
         }
     }
 }

@@ -10,7 +10,7 @@ namespace ServiceLayer
         bool IsAvailable(string userName);
         IEnumerable<Cart> getCart(Guid userId);
         void AddTOCart(Cart cart);
-        void SubmitOrder(User user);
+        void SubmitOrder(Guid userId);
         IEnumerable<Order> getUserOrders(Guid userId);
         User getUser(Guid userId);
         User GetUserByName(string userName);

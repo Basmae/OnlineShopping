@@ -28,17 +28,17 @@ namespace RepositoryLayer.Migrations
 
                     b.Property<double>("Price");
 
-                    b.Property<Guid?>("ProductID");
+                    b.Property<Guid>("ProductId");
 
                     b.Property<int>("Quantity");
 
-                    b.Property<Guid?>("UserID");
+                    b.Property<Guid>("UserId");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("ProductID");
+                    b.HasIndex("ProductId");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Cart");
                 });
@@ -65,15 +65,15 @@ namespace RepositoryLayer.Migrations
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid?>("CartID");
+                    b.Property<Guid>("CartId");
 
-                    b.Property<Guid?>("UserID");
+                    b.Property<Guid>("UserId");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("CartID");
+                    b.HasIndex("CartId");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Order");
                 });
@@ -99,7 +99,7 @@ namespace RepositoryLayer.Migrations
                     b.HasData(
                         new
                         {
-                            ID = new Guid("a5aad81d-4c5f-4b47-82cd-7e573bc486a9"),
+                            ID = new Guid("7557efb0-a958-4127-9480-8153421aea1f"),
                             Description = "this is the first product",
                             Price = 100.0,
                             ProductName = "P1",
@@ -107,7 +107,7 @@ namespace RepositoryLayer.Migrations
                         },
                         new
                         {
-                            ID = new Guid("681a08da-9489-46e3-b629-5fa7f027b86d"),
+                            ID = new Guid("554fe505-09aa-48a0-8b4f-8de8ce28bb1a"),
                             Description = "this is the second product",
                             Price = 200.0,
                             ProductName = "P2",
@@ -130,12 +130,12 @@ namespace RepositoryLayer.Migrations
                     b.HasData(
                         new
                         {
-                            ID = new Guid("1856298f-bce6-4477-9e67-c05a834a9d44"),
+                            ID = new Guid("280ac25c-cc55-45ea-b909-96b6c8b2ec0d"),
                             Name = "Basma"
                         },
                         new
                         {
-                            ID = new Guid("9f28cc0a-85d7-4ee3-ba7c-d6aeb5c3e2e1"),
+                            ID = new Guid("489f39b4-fc4b-4adc-b080-963fdb0cdec9"),
                             Name = "Ola"
                         });
                 });
@@ -144,11 +144,13 @@ namespace RepositoryLayer.Migrations
                 {
                     b.HasOne("DataLayer.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductID");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("DataLayer.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserID");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DataLayer.Image", b =>
@@ -163,11 +165,13 @@ namespace RepositoryLayer.Migrations
                 {
                     b.HasOne("DataLayer.Cart", "Cart")
                         .WithMany()
-                        .HasForeignKey("CartID");
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("DataLayer.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserID");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }

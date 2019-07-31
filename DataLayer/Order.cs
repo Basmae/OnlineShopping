@@ -7,8 +7,10 @@ namespace DataLayer
     public class Order:BaseEntity
     {
        
-        public Cart Cart { get; set; }
+        public virtual Cart Cart { get; set; }
+        public Guid CartId { get; set; }
+        public virtual User User { get; set; }
+        public Guid UserId { get; set; }
 
-        public User User { get; set; }
     }
 }

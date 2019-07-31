@@ -11,7 +11,6 @@ namespace DataLayer
         {
             entityBuilder.HasKey(u => u.ID);
             entityBuilder.Property(u=>u.Name).IsRequired();
-           
         }
     }
 }

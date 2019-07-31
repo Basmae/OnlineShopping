@@ -24,6 +24,12 @@ namespace ServiceLayer
             imageRepository = _imageRepository;
             cartRepository = _cartRepository;
         }
+
+        public void AddImage(Image image)
+        {
+            imageRepository.Insert(image);
+        }
+
         public void AddProduct(Product product)
         {
             productRepository.Insert(product);
@@ -48,10 +54,12 @@ namespace ServiceLayer
 
         public Product GetProduct(Guid ProductID)
         {
-            return productRepository.Get(ProductID);
+            Product product= productRepository.Get(ProductID);
+            
+            return product;
         }
 
-        public IEnumerable<Image> GetProductImages(Guid productId)
+        public List<Image> GetProductImages(Guid productId)
         {
             var images = imageRepository.GetAll();
             List<Image> productImages = new List<Image>();

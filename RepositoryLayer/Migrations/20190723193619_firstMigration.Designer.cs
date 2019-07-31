@@ -10,7 +10,7 @@ using RepositoryLayer;
 namespace RepositoryLayer.Migrations
 {
     [DbContext(typeof(OnlineShoppingContext))]
-    [Migration("20190720003210_firstMigration")]
+    [Migration("20190723193619_firstMigration")]
     partial class firstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,17 +30,17 @@ namespace RepositoryLayer.Migrations
 
                     b.Property<double>("Price");
 
-                    b.Property<Guid?>("ProductID");
+                    b.Property<Guid>("ProductId");
 
                     b.Property<int>("Quantity");
 
-                    b.Property<Guid?>("UserID");
+                    b.Property<Guid>("UserId");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("ProductID");
+                    b.HasIndex("ProductId");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Cart");
                 });
@@ -67,15 +67,15 @@ namespace RepositoryLayer.Migrations
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid?>("CartID");
+                    b.Property<Guid>("CartId");
 
-                    b.Property<Guid?>("UserID");
+                    b.Property<Guid>("UserId");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("CartID");
+                    b.HasIndex("CartId");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Order");
                 });
@@ -97,6 +97,24 @@ namespace RepositoryLayer.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Product");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = new Guid("cb24c610-ba72-4b15-814c-aa6eb43d9007"),
+                            Description = "this is the first product",
+                            Price = 100.0,
+                            ProductName = "P1",
+                            Quantity = 5.0
+                        },
+                        new
+                        {
+                            ID = new Guid("a229e6ce-47ab-44bd-867e-18dab78e550d"),
+                            Description = "this is the second product",
+                            Price = 200.0,
+                            ProductName = "P2",
+                            Quantity = 10.0
+                        });
                 });
 
             modelBuilder.Entity("DataLayer.User", b =>
@@ -110,17 +128,31 @@ namespace RepositoryLayer.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("User");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = new Guid("1a8c8375-b7f4-4b59-9c8b-87ca9dd6b992"),
+                            Name = "Basma"
+                        },
+                        new
+                        {
+                            ID = new Guid("a915dca0-f0d4-4294-a50c-40f28b9cfb9b"),
+                            Name = "Ola"
+                        });
                 });
 
             modelBuilder.Entity("DataLayer.Cart", b =>
                 {
                     b.HasOne("DataLayer.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductID");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("DataLayer.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserID");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DataLayer.Image", b =>
@@ -135,11 +167,13 @@ namespace RepositoryLayer.Migrations
                 {
                     b.HasOne("DataLayer.Cart", "Cart")
                         .WithMany()
-                        .HasForeignKey("CartID");
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("DataLayer.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserID");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }

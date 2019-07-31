@@ -26,7 +26,7 @@ namespace APILayer.Controllers
 
         // GET: api/Order/5
         [HttpGet("{id}")]
-        public ActionResult<List<Order>> GetUserOrder(Guid Uid)
+        public List<Order> GetUserOrder(Guid Uid)
         {
             var orders = userService.getUserOrders(Uid).ToList();
             return orders;
@@ -34,12 +34,11 @@ namespace APILayer.Controllers
 
 
         // POST: api/Order
-        [HttpPost("Submit")]
-        public ActionResult<Order> SubmitOrder(User user)
+        [HttpPost("Submit/{userId}")]
+        public void SubmitOrder(Guid userId)
         {
-            userService.SubmitOrder(user);
+            userService.SubmitOrder(userId);
 
-            return CreatedAtAction("GetOrder", new { id = user.ID}, user);
         }
 
     }

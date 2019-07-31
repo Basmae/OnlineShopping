@@ -13,7 +13,8 @@ namespace ServiceLayer
         IEnumerable<Product> filterProducts(double min, double max);
         void updateProduct(Product product);
         void AddProduct(Product product);
-        IEnumerable<Image> GetProductImages(Guid productId);
+        List<Image> GetProductImages(Guid productId);
+        void AddImage(Image image);
 
     }
 }

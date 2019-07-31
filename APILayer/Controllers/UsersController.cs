@@ -22,14 +22,14 @@ namespace APILayer.Controllers
 
         // GET: api/Users
         [HttpGet]
-        public ActionResult<IEnumerable<User>> GetUser()
+        public IEnumerable<User> GetUser()
         {
             return userService.getAllUsers().ToList();
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public ActionResult<User> GetUser(Guid id)
+        public User GetUser(Guid id)
         {
             var user = userService.getUser(id);
 
@@ -43,13 +43,13 @@ namespace APILayer.Controllers
 
         // GET: api/Users/name
         [HttpGet("Name/{UserName}")]
-        public ActionResult<User> GetUserByName(string UserName)
+        public User GetUserByName(string UserName)
         {
             return userService.GetUserByName(UserName);
         }
         // GET: api/Users/5
         [HttpGet("cart/{id}")]
-        public ActionResult<IEnumerable<Cart>> GetUserCarts(Guid id)
+        public IEnumerable<Cart> GetUserCarts(Guid id)
         {
             var userCarts = userService.getCart(id).ToList();
             return userCarts;
@@ -69,9 +69,9 @@ namespace APILayer.Controllers
 
             // return CreatedAtAction("GetUser", new { id = user.UserID }, user);
         }
-       
 
 
+        [HttpGet("Exist/{UserName}")]
         public bool UserExists(string userName)
         {
             return userService.IsAvailable(userName);
