@@ -26,7 +26,7 @@ namespace APILayer.Controllers
 
         // GET: api/Order/5
         [HttpGet("{id}")]
-        public List<Order> GetUserOrder(Guid Uid)
+        public async Task<List<Order>> GetUserOrder(Guid Uid)
         {
             var orders = userService.getUserOrders(Uid).ToList();
             return orders;
@@ -35,7 +35,7 @@ namespace APILayer.Controllers
 
         // POST: api/Order
         [HttpPost("Submit/{userId}")]
-        public void SubmitOrder(Guid userId)
+        public async void SubmitOrder(Guid userId)
         {
             userService.SubmitOrder(userId);
 

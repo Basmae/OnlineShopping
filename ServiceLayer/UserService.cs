@@ -12,17 +12,15 @@ namespace ServiceLayer
         private IRepository<User> userRepository;
         private IRepository<Product> productRepository;
         private IRepository<Order> orderRepository;
-        private IRepository<Image> imageRepository;
         private IRepository<Cart> cartRepository;
 
         public UserService(IRepository<User> _userRepository, IRepository<Product> _productRepository ,
-            IRepository<Order> _orderRepository, IRepository<Image> _imageRepository,
+            IRepository<Order> _orderRepository,
             IRepository<Cart> _cartRepository)
         {
             userRepository = _userRepository;
             productRepository = _productRepository;
             orderRepository = _orderRepository;
-            imageRepository = _imageRepository;
             cartRepository = _cartRepository;
         }
         public void AddTOCart(Cart cart)

@@ -8,21 +8,15 @@ namespace ServiceLayer
 {
     public class ProductService : IProductService
     {
-        private IRepository<User> userRepository;
         private IRepository<Product> productRepository;
-        private IRepository<Order> orderRepository;
         private IRepository<Image> imageRepository;
-        private IRepository<Cart> cartRepository;
 
-        public ProductService(IRepository<User> _userRepository, IRepository<Product> _productRepository,
-            IRepository<Order> _orderRepository, IRepository<Image> _imageRepository,
-            IRepository<Cart> _cartRepository)
+        public ProductService( IRepository<Product> _productRepository,
+            IRepository<Image> _imageRepository
+           )
         {
-            userRepository = _userRepository;
             productRepository = _productRepository;
-            orderRepository = _orderRepository;
             imageRepository = _imageRepository;
-            cartRepository = _cartRepository;
         }
 
         public void AddImage(Image image)

@@ -23,14 +23,14 @@ namespace APILayer.Controllers
 
         // GET: api/products
         [HttpGet]
-        public IEnumerable<Product> Getproduct()
+        public async Task<IEnumerable<Product>> GetAllproducts()
         {
             return productService.GetAllProducts().ToList();
         }
 
         // GET: api/products/5
         [HttpGet("{id}")]
-        public Product Getproduct(Guid id)
+        public async Task<Product> GetproductById(Guid id)
         {
             var product = productService.GetProduct(id);
 
@@ -44,7 +44,7 @@ namespace APILayer.Controllers
 
         // PUT: api/products/5
         [HttpPut("{id}")]
-        public IActionResult Putproduct(Guid id, Product product)
+        public async Task<IActionResult> Updateproduct(Guid id, Product product)
         {
             if (id != product.ID)
             {
@@ -58,7 +58,7 @@ namespace APILayer.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!productExists(id))
+                if (!(await productExists(id)))
                 {
                     return NotFound();
                 }
@@ -73,20 +73,20 @@ namespace APILayer.Controllers
 
         // POST: api/products
         [HttpPost]
-        public void Postproduct(Product product)
+        public async void AddProduct(Product product)
         {
             productService.AddProduct(product);
 
         }
 
         
-        public bool productExists(Guid id)
+        public async Task<bool> productExists(Guid id)
         {
             return productService.ProductIsAvailable(id);
         }
 
         [HttpGet("Images/{id}")]
-        public IEnumerable<Image> GetproductImages(Guid id)
+        public async Task<IEnumerable<Image>> GetproductImages(Guid id)
         {
             var productImages = productService.GetProductImages(id).ToList();
 
@@ -94,7 +94,7 @@ namespace APILayer.Controllers
         }
 
         [HttpGet("filter/{min}/{max}")]
-        public IEnumerable<Product> Getproducts(double min , double max)
+        public async Task<IEnumerable<Product>> Getproducts(double min , double max)
         {
             var filteredproducts = productService.filterProducts(min,max).ToList();
 
@@ -102,7 +102,7 @@ namespace APILayer.Controllers
         }
         // POST: api/products/image
         [HttpPost("image")]
-        public void PostImage(Image image)
+        public async void AddImage(Image image)
         {
             productService.AddImage(image);
 

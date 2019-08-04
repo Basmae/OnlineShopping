@@ -26,7 +26,7 @@ namespace APILayer.Controllers
 
         // GET: api/Carts/5
         [HttpGet("{Uid}")]
-        public List<Cart> GetCart(Guid Uid)
+        public async Task<List<Cart>> GetCart(Guid Uid)
         {
             var cart = userService.getCart(Uid).ToList();
 
@@ -40,14 +40,14 @@ namespace APILayer.Controllers
 
         // GET: api/Carts
         [HttpDelete("")]
-        public void DeleteCart(Cart cart)
+        public async void DeleteCart(Cart cart)
         {
             userService.DeleteCart(cart);
         }
 
         // POST: api/Carts
         [HttpPost]
-        public void PostCart(Cart cart)
+        public async void AddCart(Cart cart)
         {
             userService.AddTOCart(
                 new Cart

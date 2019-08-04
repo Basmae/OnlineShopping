@@ -22,14 +22,14 @@ namespace APILayer.Controllers
 
         // GET: api/Users
         [HttpGet]
-        public IEnumerable<User> GetUser()
+        public async  Task<IEnumerable<User>> GetAllUsers()
         {
             return userService.getAllUsers().ToList();
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public User GetUser(Guid id)
+        public async Task<User> GetUserById(Guid id)
         {
             var user = userService.getUser(id);
 
@@ -43,13 +43,13 @@ namespace APILayer.Controllers
 
         // GET: api/Users/name
         [HttpGet("Name/{UserName}")]
-        public User GetUserByName(string UserName)
+        public async Task<User> GetUserByName(string UserName)
         {
             return userService.GetUserByName(UserName);
         }
         // GET: api/Users/5
         [HttpGet("cart/{id}")]
-        public IEnumerable<Cart> GetUserCarts(Guid id)
+        public async Task<IEnumerable<Cart>> GetUserCarts(Guid id)
         {
             var userCarts = userService.getCart(id).ToList();
             return userCarts;
@@ -59,7 +59,7 @@ namespace APILayer.Controllers
 
         // POST: api/Users
         [HttpPost]
-        public void PostUser(User user)
+        public async void AddUser(User user)
         {
             userService.AddUser(new User
             {
@@ -67,14 +67,13 @@ namespace APILayer.Controllers
                 Name = user.Name
             });
 
-            // return CreatedAtAction("GetUser", new { id = user.UserID }, user);
         }
 
 
         [HttpGet("Exist/{UserName}")]
-        public bool UserExists(string userName)
+        public async Task<bool> UserExists(string userName)
         {
-            return userService.IsAvailable(userName);
+            return  userService.IsAvailable(userName);
         }
 
     }
