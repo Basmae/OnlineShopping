@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using DataLayer;
 using RepositoryLayer;
 
@@ -57,9 +58,9 @@ namespace ServiceLayer
             return UserCarts;
         }
 
-        public User getUser(Guid userId)
+        public async Task<User> getUser(Guid userId)
         {
-           return userRepository.Get(userId);
+           return await userRepository.Get(userId);
         }
 
         public bool IsAvailable(string userName)
@@ -84,7 +85,7 @@ namespace ServiceLayer
             return null;
         }
 
-        public void SubmitOrder(Guid userId)
+        public async void SubmitOrder(Guid userId)
         {
             var cartlist = getCart(userId);
             foreach(var item in cartlist)
@@ -97,7 +98,7 @@ namespace ServiceLayer
                 });
                 item.IsSubmitted = true;
                 cartRepository.Update(item);
-                var product = productRepository.Get(item.ProductId);
+                var product =await productRepository.Get(item.ProductId);
                 product.Quantity -= item.Quantity;
                 productRepository.Update(product);
             }

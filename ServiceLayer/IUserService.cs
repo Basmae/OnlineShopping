@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ServiceLayer
 {
@@ -12,7 +13,7 @@ namespace ServiceLayer
         void AddTOCart(Cart cart);
         void SubmitOrder(Guid userId);
         IEnumerable<Order> getUserOrders(Guid userId);
-        User getUser(Guid userId);
+        Task<User> getUser(Guid userId);
         User GetUserByName(string userName);
         void AddUser(User user);
         Cart DeleteCart(Cart cart);

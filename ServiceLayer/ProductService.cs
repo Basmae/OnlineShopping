@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using DataLayer;
 using RepositoryLayer;
 
@@ -46,9 +47,9 @@ namespace ServiceLayer
             return productRepository.GetAll();
         }
 
-        public Product GetProduct(Guid ProductID)
+        public async Task<Product> GetProduct(Guid ProductID)
         {
-            Product product= productRepository.Get(ProductID);
+            Product product=await productRepository.Get(ProductID);
             
             return product;
         }
@@ -65,9 +66,9 @@ namespace ServiceLayer
             return productImages;
         }
 
-        public bool ProductIsAvailable(Guid ProductId)
+        public async Task<bool> ProductIsAvailable(Guid ProductId)
         {
-            Product product = productRepository.Get(ProductId);
+            Product product =await productRepository.Get(ProductId);
             if (product != null && product.Quantity > 0)
                 return true;
             else

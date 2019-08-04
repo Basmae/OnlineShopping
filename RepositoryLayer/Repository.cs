@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace RepositoryLayer
 {
@@ -17,36 +18,36 @@ namespace RepositoryLayer
             context = _context;
             entities = context.Set<T>();
         }
-        public void Delete(T entity)
+        public async void Delete(T entity)
         {
             if (entity == null)
             {
                 throw new ArgumentNullException("entity");
             }
             entities.Remove(entity);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
-        public T Get(Guid ID)
+        public async Task<T> Get(Guid ID)
         {
-            return entities.FirstOrDefault(t=>t.ID == ID);
+            return await entities.FirstOrDefaultAsync(t=>t.ID == ID);
         }
 
         public IEnumerable<T> GetAll()
         {
-            return entities.AsEnumerable();
+            return  entities.AsEnumerable();
         }
 
        
 
-        public void Insert(T entity)
+        public async void Insert(T entity)
         {
             if (entity == null)
             {
                 throw new ArgumentNullException("entity");
             }
-            entities.Add(entity);
-            context.SaveChanges();
+            await entities.AddAsync(entity);
+            await context.SaveChangesAsync();
         }
 
         public void Remove(T entity)
@@ -58,19 +59,19 @@ namespace RepositoryLayer
             entities.Remove(entity);
         }
 
-        public void SaveChanges()
+        public async void SaveChanges()
         {
-            context.SaveChanges();
+           await context.SaveChangesAsync();
         }
 
-        public void Update(T entity)
+        public async void Update(T entity)
         {
             if (entity == null)
             {
                 throw new ArgumentNullException("entity");
             }
             entities.Update(entity);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
     }
 }
